@@ -1,0 +1,65 @@
+# 🤖 Run Terraform plan, linting, Golang tests, etc. for pull requests
+name: Go-AI-Critic
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+
+  build_and_test_go:
+    strategy:
+      matrix:
+        go: [ '1.21' ]
+        os: [ macos-latest, windows-latest ]
+
+    name: 🏗️ Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🚀 Set up Go
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: '1.21'
+          cache: true
+          check-latest: true
+
+      - name: 🧹 Tidy Dependencies
+        run: make go-mod-tidy
+
+      - name: 🕵️‍♂️ Run GolangCI-Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54
+
+      - name: 🔧 Build Application
+        run: make go-build
+
+      - name: 🧪 Execute Tests
+        run: make test-race
+
+  lint-markdown:
+    name: 📝 Lint README
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout Code
+        uses: actions/checkout@v2
+
+      - name: 📦 Install Node.js and npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.0.0'
+
+      - name: 📚 Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: 🖊️ Run markdownlint
+        run: find . -name '*.md' -exec markdownlint {} +
