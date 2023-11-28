@@ -7,6 +7,11 @@ all: install-tools build test lint
 # Build Targets
 build: go-mod-tidy go-build
 
+# Build and run the appliction
+build-and-run:
+	@echo ">>>>> Starting app"
+	@go mod tidy -go=1.21 && go build -o critic && ./critic
+
 go-mod-tidy:
 	@echo "🧹 Running go mod tidy"
 	@go mod tidy -go=1.21
