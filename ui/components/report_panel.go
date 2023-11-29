@@ -11,12 +11,10 @@ type ReportPanel struct {
 }
 
 func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
-
 	return &ReportPanel{
 		Size:   containerSize,
 		Canvas: widget.NewRichTextFromMarkdown(text),
 	}
-
 }
 
 func (panel *ReportPanel) Refresh() *ReportPanel {

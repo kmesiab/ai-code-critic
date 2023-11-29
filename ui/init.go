@@ -17,7 +17,7 @@ type CriticWindow struct {
 	ReportPanel   *components.ReportPanel // the left panel
 	DiffPanel     *components.DiffPanel   // The right panel
 	ToolBar       *fyne.CanvasObject      // the top toolbar menu
-	CenterDivider *widget.Separator       // A separater between the two panels
+	CenterDivider *widget.Separator       // A separator between the two panels
 	Canvas        *fyne.Container         // A vertical box containing the ui components
 	Window        *fyne.Window            // The main application window
 }
@@ -25,7 +25,6 @@ type CriticWindow struct {
 var criticWindow *CriticWindow
 
 func Initialize(app fyne.App) *CriticWindow {
-
 	canvasSize := fyne.NewSize(critic.MainCanvasWidth, critic.MainCanvasHeight)
 
 	// Left and right rich text panels and a center divider
@@ -66,7 +65,6 @@ func Initialize(app fyne.App) *CriticWindow {
 
 func LoadSampleDiffString() string {
 	diffBytes, err := os.ReadFile("./assets/diff.txt")
-
 	if err != nil {
 		log.Println(err)
 		return critic.MoreInfoMarkdown
@@ -79,7 +77,6 @@ func onMenuButtonClickedHandler() {
 	log.Print(critic.DragAndDropMarkdown)
 
 	criticWindow.ReportPanel.SetText(critic.IntroMarkdown).Refresh()
-
 }
 
 func onFileOpenButtonClickedHandler() {
