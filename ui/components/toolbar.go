@@ -7,9 +7,11 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-type MenuButtonClickedEventHandler func()
-type FileOpenClickedEventHandler func()
-type AnalyzeButtonClickedEventHandler func()
+type (
+	MenuButtonClickedEventHandler    func()
+	FileOpenClickedEventHandler      func()
+	AnalyzeButtonClickedEventHandler func()
+)
 
 func NewToolBar(
 	menuButtonHandler MenuButtonClickedEventHandler,

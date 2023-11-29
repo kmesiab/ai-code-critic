@@ -1,29 +1,58 @@
 package components
 
 import (
+	"strings"
+
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/widget"
+
+	critic "github.com/kmesiab/ai-code-critic/internal"
 )
 
 type DiffPanel struct {
-	Canvas *DiffGrid
+	Canvas *widget.TextGrid
 	Size   fyne.Size
 }
 
 func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
+	grid := widget.NewTextGrid()
 
-	grid := NewDiffGrid(text)
-	grid.ShowLineNumbers = true
-
-	grid.Resize(size)
-
-	return &DiffPanel{
+	panel := DiffPanel{
 		Canvas: grid,
 		Size:   size,
 	}
+
+	return panel.SetText(text)
 }
 
-func (panel *DiffPanel) SetText(text string) *DiffPanel {
-	panel.Canvas.SetText(text)
+func (grid *DiffPanel) SetText(text string) *DiffPanel {
+	lines := strings.Split(text, "\n")
 
-	return panel
+	for i, line := range lines {
+
+		var style *widget.CustomTextGridStyle
+
+		if strings.HasPrefix(line, "+") {
+			style = critic.GreenTextGridStyle
+		} else if strings.HasPrefix(line, "-") {
+			style = critic.RedTextGridStyle
+		} else {
+			style = critic.BlackTextGridStyle
+		}
+
+		textGridRow := widget.TextGridRow{Style: style}
+
+		// Style the sentence, rune by rune
+		for _, r := range line {
+			textGridRow.Cells = append(
+				textGridRow.Cells,
+				widget.TextGridCell{Rune: r},
+			)
+		}
+
+		grid.Canvas.SetRow(i, textGridRow)
+
+	}
+
+	return grid
 }
