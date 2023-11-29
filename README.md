@@ -27,7 +27,7 @@ To install AI-Code-Critic, you need to have Go installed on your machine.
 Follow these steps:
 
 ```bash
-go install github.com/yourusername/AI-Code-Critic
+go install github.com/kmesiab/ai-code-critic
 ```
 
 To run the program:
@@ -79,8 +79,8 @@ page.
 2. **Clone Your Fork**:
 
    ```bash
-   git clone https://github.com/yourusername/AI-Code-Critic.git
-   cd AI-Code-Critic
+   git clone https://github.com/kmesiab/ai-code-critic
+   cd ai-code-critic
    ```
 
 3. **Create a New Branch**:
