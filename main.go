@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	"fyne.io/fyne/v2"
@@ -35,17 +36,24 @@ func main() {
 }
 
 func getCodeReview(prContents string) {
+
+	resetPanel := func() {
+		criticWindow.ProgressBar.Canvas.Stop()
+		criticWindow.ProgressBar.Canvas.Hide()
+		criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
+	}
+
 	review, err := critic.GetCodeReviewFromAPI(prContents)
 
 	if err != nil {
-		critic.Logf("Error getting review: %s", err)
+		resetPanel()
+		dialog.ShowError(fmt.Errorf("error getting review: %s", err), *criticWindow.Window)
+		return
 	}
 
 	review = critic.ShortenLongLines(review)
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
-
-	criticWindow.ProgressBar.Canvas.Stop()
-	criticWindow.ProgressBar.Canvas.Hide()
+	resetPanel()
 }
 
 func onAPIKeySubmitButtonClickedHandler(ok bool) {
