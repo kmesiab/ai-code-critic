@@ -77,7 +77,7 @@ func LoadSampleDiffString() string {
 	diffBytes, err := os.ReadFile("./assets/diff.txt")
 	if err != nil {
 		log.Println(err)
-		return critic.MoreInfoMarkdown
+		return critic.IntroMarkdown
 	}
 
 	return string(diffBytes)
@@ -108,11 +108,23 @@ func onAPIKeySubmitButtonClickedHandler(ok bool) {
 	}
 
 	err = critic.GetPullRequest(url, s, prNumber, func(prContents string) {
+
 		criticWindow.DiffPanel.SetText(prContents)
+		criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
+		review, err := critic.GetCodeReviewFromAPI(prContents)
+
+		if err != nil {
+			return
+		}
+
+		log.Println(review)
+
+		criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
+
 	})
 
 	if err != nil {
-		log.Printf("Error parsing URL: %s", err)
+		log.Printf("Error getting PR: %s", err)
 	}
 }
 

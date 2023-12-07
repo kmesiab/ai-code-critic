@@ -8,7 +8,7 @@ import (
 
 const (
 	ApplicationName                = "AI Code Critic"
-	PullRequestURLModalDefaultText = "Enter your OpenAI API key here"
+	PullRequestURLModalDefaultText = "Enter the github url for a pull request"
 	MainCanvasHeight               = 720
 	MainCanvasWidth                = 960
 )
@@ -45,29 +45,14 @@ improve it. It's like having a code reviewer in your
 
 pocket!
 
-![Logo](./assets/whirl.png)
-
-
-`
-
-const MoreInfoMarkdown = `
-# Load a diff to get started 🚀
-
 ![Logo](./assets/logo.png)
 
-1. Click the "Open File" button in the top left corner. 📂
-
-2. Select a file to analyze. 📄
-
-3. Click the "Analyze" button. 🔍
-
-4. Marvel over your new code review! 🎊
-
-![Drag and drop](./assets/drag-and-drop.png)
-
 `
 
-const DragAndDropMarkdown = `
-# Load a diff to get started
-![Drag and drop](./assets/drag-and-drop.png)
+const WaitingForReportMarkdown = `
+# Waiting for report... 🕐
+
+Please be patient. Your report will appear here shortly.
+
+![Logo](./assets/logo.png)
 `
