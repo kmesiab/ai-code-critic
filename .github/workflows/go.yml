@@ -1,5 +1,5 @@
 # 🤖 Run Terraform plan, linting, Golang tests, etc. for pull requests
-name: Go-AI-Critic
+name: ai-code-critic
 
 defaults:
   run:
