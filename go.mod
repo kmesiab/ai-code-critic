@@ -7,6 +7,7 @@ toolchain go1.21.4
 require (
 	fyne.io/fyne/v2 v2.4.2
 	github.com/Netflix/go-env v0.0.0-20220526054621-78278af1949d
+	github.com/sirupsen/logrus v1.9.3
 )
 
 require (

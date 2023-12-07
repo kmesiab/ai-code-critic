@@ -5,18 +5,14 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-)
 
-type (
-	MenuButtonClickedEventHandler    func()
-	FileOpenClickedEventHandler      func()
-	AnalyzeButtonClickedEventHandler func()
+	critic "github.com/kmesiab/ai-code-critic/internal"
 )
 
 func NewToolBar(
-	menuButtonHandler MenuButtonClickedEventHandler,
-	fileOpenButtonHandler FileOpenClickedEventHandler,
-	analyzeButtonHandler AnalyzeButtonClickedEventHandler,
+	menuButtonHandler critic.MenuButtonClickedEventHandler,
+	fileOpenButtonHandler critic.FileOpenClickedEventHandler,
+	analyzeButtonHandler critic.AnalyzeButtonClickedEventHandler,
 ) fyne.CanvasObject {
 	toolbar := widget.NewToolbar(
 

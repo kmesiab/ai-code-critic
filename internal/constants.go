@@ -7,9 +7,10 @@ import (
 )
 
 const (
-	ApplicationName  = "AI Code Critic"
-	MainCanvasHeight = 720
-	MainCanvasWidth  = 960
+	ApplicationName                = "AI Code Critic"
+	PullRequestURLModalDefaultText = "Enter your OpenAI API key here"
+	MainCanvasHeight               = 720
+	MainCanvasWidth                = 960
 )
 
 // Variables for the diff grid
