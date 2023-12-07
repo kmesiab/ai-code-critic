@@ -16,10 +16,10 @@ func NewToolBar(
 	toolbar := widget.NewToolbar(
 
 		// File open button
-		widget.NewToolbarAction(theme.UploadIcon(), fileOpenButtonHandler),
+		widget.NewToolbarAction(theme.ContentAddIcon(), fileOpenButtonHandler),
 
 		// Analyze button
-		widget.NewToolbarAction(theme.ConfirmIcon(), analyzeButtonHandler),
+		widget.NewToolbarAction(theme.MediaPlayIcon(), analyzeButtonHandler),
 	)
 
 	return container.NewVBox(toolbar)
