@@ -4,7 +4,10 @@ go 1.21
 
 toolchain go1.21.4
 
-require fyne.io/fyne/v2 v2.4.2
+require (
+	fyne.io/fyne/v2 v2.4.2
+	github.com/Netflix/go-env v0.0.0-20220526054621-78278af1949d
+)
 
 require (
 	fyne.io/systray v1.10.1-0.20231115130155-104f5ef7839e // indirect
