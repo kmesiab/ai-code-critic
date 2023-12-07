@@ -33,15 +33,17 @@ go install github.com/kmesiab/ai-code-critic
 To run the program:
 
 ```bash
-./ai-code-critic -f input.diff
+./ai-code-critic
 ```
 
 ## Usage 💡
 
 ![Screenshot](./assets/screenshot.png)
 
-Usage guidelines for effectively utilizing the application will be available
-here.
+1. Click the "+" button and enter the url to a github pull request.
+2. Wait patiently while things happen.
+3. The diff will be loaded in the right pane.
+4. The report will appear shortly after in the left pane.
 
 ## Development and Testing 🧪
 
