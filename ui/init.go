@@ -33,7 +33,10 @@ func Initialize(
 		analyzeButtonClickedHandler,
 	)
 
-	centerStage := container.NewHSplit(reportPanel.Canvas, diffPanel.Canvas)
+	reportPanelPadded := container.NewPadded(reportPanel.Canvas)
+	diffPanelPadded := container.NewPadded(diffPanel.Canvas)
+
+	centerStage := container.NewHSplit(reportPanelPadded, diffPanelPadded)
 	mainStage := container.NewBorder(toolbar, progressBar.Canvas, nil, nil, centerStage)
 
 	// Main program window
