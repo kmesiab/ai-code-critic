@@ -38,7 +38,7 @@ To run the program:
 
 ## Usage 💡
 
-![Screenshot](./assets/screen-shot.png)
+![Screenshot](./assets/screenshot.png)
 
 Usage guidelines for effectively utilizing the application will be available
 here.
