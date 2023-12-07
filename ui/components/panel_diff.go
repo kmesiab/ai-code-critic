@@ -10,28 +10,34 @@ import (
 )
 
 type DiffPanel struct {
-	Canvas *widget.TextGrid
-	Size   fyne.Size
+	Canvas   *widget.TextGrid
+	Size     fyne.Size
+	MaxLines int
 }
 
 func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
 
-	newSize := fyne.NewSize(size.Width/2, size.Height)
+	newSize := fyne.NewSize(size.Width/.25, size.Height)
 
 	grid := widget.NewTextGrid()
 	grid.ShowLineNumbers = true
-	grid.Resize(newSize)
 
 	panel := DiffPanel{
-		Canvas: grid,
-		Size:   newSize,
+		Canvas:   grid,
+		Size:     newSize,
+		MaxLines: 25,
 	}
 
-	return panel.SetText(text)
+	return panel.SetDiffText(text)
 }
 
-func (grid *DiffPanel) SetText(text string) *DiffPanel {
+func (grid *DiffPanel) SetDiffText(text string) *DiffPanel {
 	lines := strings.Split(text, "\n")
+
+	// limit the number of lines to 50
+	if len(lines) > grid.MaxLines {
+		lines = lines[:grid.MaxLines]
+	}
 
 	for i, line := range lines {
 
