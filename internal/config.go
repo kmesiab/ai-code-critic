@@ -16,7 +16,7 @@ import (
 //	    DatabaseURL string `env:"DATABASE_URL"`
 //	}
 type Config struct {
-	LogLevel string `env:"LOG_LEVEL"`
+	OpenAiAPIKey string `env:"OPENAI_API_KEY"`
 }
 
 // config is a singleton instance of Config
