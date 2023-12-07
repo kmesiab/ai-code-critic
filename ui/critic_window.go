@@ -15,4 +15,5 @@ type CriticWindow struct {
 	Canvas              *fyne.Container                 // A vertical box containing the ui components
 	Window              *fyne.Window                    // The main application window
 	PullRequestURLModal *components.PullRequestURLModal // The API key modal
+	ProgressBar         *components.ProgressBar         // The progress bar
 }

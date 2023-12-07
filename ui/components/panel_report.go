@@ -6,12 +6,8 @@ import (
 )
 
 type ReportPanel struct {
+	Size   fyne.Size
 	Canvas *widget.RichText
-}
-
-func (panel *ReportPanel) Resize(size *fyne.Size) *ReportPanel {
-	panel.Canvas.Resize(*size)
-	return panel
 }
 
 func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
@@ -21,5 +17,5 @@ func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
 	richText := widget.NewRichTextFromMarkdown(text)
 	richText.Resize(newSize)
 
-	return &ReportPanel{Canvas: richText}
+	return &ReportPanel{Canvas: richText, Size: newSize}
 }

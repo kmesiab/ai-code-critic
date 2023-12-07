@@ -42,10 +42,13 @@ func getCodeReview(prContents string) {
 		canvasSize.Width/2, criticWindow.ReportPanel.Canvas.Size().Height,
 	)
 
-	criticWindow.ReportPanel.Resize(&newSize)
+	criticWindow.ProgressBar.Canvas.Stop()
+	criticWindow.ReportPanel.Canvas.Resize(newSize)
 }
 
 func onAPIKeySubmitButtonClickedHandler(ok bool) {
+
+	criticWindow.ProgressBar.Canvas.Start()
 
 	if !ok {
 		return
@@ -84,6 +87,7 @@ func onGetPullRequestHandler(prContents string) {
 	// Set the report
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
 
+	// Send the pull request to the LLM
 	getCodeReview(prContents)
 
 }
@@ -94,4 +98,9 @@ func onFileOpenButtonClickedHandler() {
 
 func onAnalyzeButtonClickedHandler() {
 	critic.Logf("Analyze button clicked")
+
+	criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
+	criticWindow.DiffPanel.Canvas.Resize(criticWindow.DiffPanel.Size)
+	(*criticWindow.Window).Resize(criticWindow.Size)
+
 }

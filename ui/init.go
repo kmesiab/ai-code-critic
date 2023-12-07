@@ -26,14 +26,17 @@ func Initialize(
 		analyzeButtonClickedHandler,
 	)
 
+	progressBar := components.NewProgressBar(canvasSize)
+
 	// Lay out all the panels
 	horizontalContainer := container.NewHBox(reportPanel.Canvas, diffPanel.Canvas)
-	fullCanvas := container.NewVBox(toolbar, horizontalContainer)
+	fullCanvas := container.NewVBox(toolbar, horizontalContainer, progressBar.Canvas)
 
 	// Create a main window and set the canvas as its content
 	window := app.NewWindow(critic.ApplicationName)
 	window.SetContent(fullCanvas)
 	window.Resize(canvasSize)
+	window.SetFixedSize(true)
 
 	// Create the pull requests url modal
 	PullRequestURLModal := components.NewPullRequestURLModal(
@@ -50,6 +53,7 @@ func Initialize(
 		Canvas:              fullCanvas,
 		Window:              &window,
 		PullRequestURLModal: PullRequestURLModal,
+		ProgressBar:         progressBar,
 	}
 
 	return criticWindow
