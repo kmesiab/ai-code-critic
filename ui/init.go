@@ -40,6 +40,7 @@ func Initialize(
 	window := app.NewWindow(critic.ApplicationName)
 	window.SetContent(mainStage)
 	window.Resize(canvasSize)
+	window.SetFixedSize(true)
 
 	// Create the pull requests url modal
 	PullRequestURLModal := components.NewPullRequestURLModal(

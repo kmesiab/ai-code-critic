@@ -16,7 +16,6 @@ var criticWindow *ui.CriticWindow
 
 func main() {
 	application := app.New()
-	// application.Settings().SetTheme(theme.DarkTheme())
 
 	criticWindow = ui.Initialize(application,
 		onFileOpenButtonClickedHandler,
@@ -82,14 +81,11 @@ func onAPIKeySubmitButtonClickedHandler(ok bool) {
 
 func onGetPullRequestHandler(prContents string) {
 
-	prContents = critic.ShortenLongLines(prContents)
-
 	// Set the diff text
-	criticWindow.DiffPanel.SetDiffText(prContents)
+	criticWindow.DiffPanel.SetText(prContents)
 
 	// Set the report
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
-	criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
 
 	// Send the pull request to the LLM
 	getCodeReview(prContents)
