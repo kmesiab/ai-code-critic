@@ -8,9 +8,9 @@ import (
 
 const (
 	ApplicationName                = "AI Code Critic"
-	PullRequestURLModalDefaultText = "Enter the github url for a pull request"
-	MainCanvasHeight               = 720
-	MainCanvasWidth                = 960
+	PullRequestURLModalDefaultText = "Enter the GitHub URL for a pull request:"
+	MainCanvasHeight               = 600
+	MainCanvasWidth                = 800
 )
 
 // Variables for the diff grid

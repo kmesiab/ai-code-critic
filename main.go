@@ -3,13 +3,95 @@
 package main
 
 import (
+	"strconv"
+
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 
+	critic "github.com/kmesiab/ai-code-critic/internal"
 	"github.com/kmesiab/ai-code-critic/ui"
 )
 
+var criticWindow *ui.CriticWindow
+
 func main() {
 	application := app.New()
-	window := ui.Initialize(application).Window
-	(*window).ShowAndRun()
+
+	criticWindow = ui.Initialize(application,
+		onFileOpenButtonClickedHandler,
+		onAnalyzeButtonClickedHandler,
+		onAPIKeySubmitButtonClickedHandler,
+	)
+
+	(*criticWindow.Window).ShowAndRun()
+
+}
+
+func getCodeReview(prContents string) {
+	review, err := critic.GetCodeReviewFromAPI(prContents)
+
+	if err != nil {
+		critic.Logf("Error getting review: %s", err)
+	}
+
+	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
+
+	// Resize the window to half the size of the parent container
+	canvasSize := (*criticWindow.Canvas).Size()
+	newSize := fyne.NewSize(
+		canvasSize.Width/2, criticWindow.ReportPanel.Canvas.Size().Height,
+	)
+
+	criticWindow.ReportPanel.Resize(&newSize)
+}
+
+func onAPIKeySubmitButtonClickedHandler(ok bool) {
+
+	if !ok {
+		return
+	}
+
+	input := criticWindow.PullRequestURLModal.TextEntry.Text
+
+	if input == "" {
+		return
+	}
+
+	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
+
+	if err != nil {
+		critic.Logf("Error parsing URL: %s", err)
+	}
+
+	prNumber, err := strconv.Atoi(s2)
+
+	if err != nil {
+		critic.Logf("Invalid PR number: %s", s2)
+	}
+
+	err = critic.GetPullRequest(url, s, prNumber, onGetPullRequestHandler)
+
+	if err != nil {
+		critic.Logf("Error getting PR: %s", err)
+	}
+}
+
+func onGetPullRequestHandler(prContents string) {
+
+	// Set the diff text
+	criticWindow.DiffPanel.SetText(prContents)
+
+	// Set the report
+	criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
+
+	getCodeReview(prContents)
+
+}
+
+func onFileOpenButtonClickedHandler() {
+	criticWindow.PullRequestURLModal.Form.Show()
+}
+
+func onAnalyzeButtonClickedHandler() {
+	critic.Logf("Analyze button clicked")
 }

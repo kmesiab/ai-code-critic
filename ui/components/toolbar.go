@@ -10,17 +10,13 @@ import (
 )
 
 func NewToolBar(
-	menuButtonHandler critic.MenuButtonClickedEventHandler,
 	fileOpenButtonHandler critic.FileOpenClickedEventHandler,
 	analyzeButtonHandler critic.AnalyzeButtonClickedEventHandler,
 ) fyne.CanvasObject {
 	toolbar := widget.NewToolbar(
 
-		// Home button
-		widget.NewToolbarAction(theme.MenuIcon(), menuButtonHandler),
-
 		// File open button
-		widget.NewToolbarAction(theme.FileTextIcon(), fileOpenButtonHandler),
+		widget.NewToolbarAction(theme.UploadIcon(), fileOpenButtonHandler),
 
 		// Analyze button
 		widget.NewToolbarAction(theme.ConfirmIcon(), analyzeButtonHandler),
