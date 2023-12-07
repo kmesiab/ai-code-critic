@@ -15,11 +15,16 @@ type DiffPanel struct {
 }
 
 func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
+
+	newSize := fyne.NewSize(size.Width/2, size.Height)
+
 	grid := widget.NewTextGrid()
+	grid.ShowLineNumbers = true
+	grid.Resize(newSize)
 
 	panel := DiffPanel{
 		Canvas: grid,
-		Size:   size,
+		Size:   newSize,
 	}
 
 	return panel.SetText(text)

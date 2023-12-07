@@ -14,6 +14,7 @@ type PullRequestURLModal struct {
 }
 
 func NewPullRequestURLModal(
+	size fyne.Size,
 	defaultText string,
 	parentWindow *fyne.Window,
 	onSubmitHandler critic.SubmitButtonClickedEventHandler,
@@ -32,6 +33,9 @@ func NewPullRequestURLModal(
 		onSubmitHandler,
 		*parentWindow,
 	)
+
+	newSize := fyne.NewSize(size.Width/.7, f.MinSize().Height)
+	f.Resize(newSize)
 
 	return &PullRequestURLModal{Form: f, TextEntry: entry}
 }

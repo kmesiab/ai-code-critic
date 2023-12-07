@@ -7,12 +7,19 @@ import (
 
 type ReportPanel struct {
 	Canvas *widget.RichText
-	Size   fyne.Size
+}
+
+func (panel *ReportPanel) Resize(size *fyne.Size) *ReportPanel {
+	panel.Canvas.Resize(*size)
+	return panel
 }
 
 func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
-	return &ReportPanel{
-		Size:   containerSize,
-		Canvas: widget.NewRichTextFromMarkdown(text),
-	}
+
+	// Set it to half the width of the parent container
+	newSize := fyne.NewSize(containerSize.Width/2, containerSize.Height)
+	richText := widget.NewRichTextFromMarkdown(text)
+	richText.Resize(newSize)
+
+	return &ReportPanel{Canvas: richText}
 }
