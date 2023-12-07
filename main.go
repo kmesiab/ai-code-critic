@@ -35,25 +35,21 @@ func getCodeReview(prContents string) {
 		critic.Logf("Error getting review: %s", err)
 	}
 
+	review = critic.ShortenLongLines(review)
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
 
-	// Resize the window to half the size of the parent container
-	canvasSize := (*criticWindow.Canvas).Size()
-	newSize := fyne.NewSize(
-		canvasSize.Width/2, criticWindow.ReportPanel.Canvas.Size().Height,
-	)
-
 	criticWindow.ProgressBar.Canvas.Stop()
-	criticWindow.ReportPanel.Canvas.Resize(newSize)
+	criticWindow.ProgressBar.Canvas.Hide()
 }
 
 func onAPIKeySubmitButtonClickedHandler(ok bool) {
 
-	criticWindow.ProgressBar.Canvas.Start()
-
 	if !ok {
 		return
 	}
+
+	criticWindow.ProgressBar.Canvas.Start()
+	criticWindow.ProgressBar.Canvas.Show()
 
 	input := criticWindow.PullRequestURLModal.TextEntry.Text
 
