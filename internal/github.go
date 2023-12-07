@@ -25,28 +25,43 @@ func ParseGithubPullRequestURL(pullRequestURL string) (string, string, string, e
 	return owner, repo, prNumber, nil
 }
 
-func GetPullRequest(owner string, repo string, prNumber int) (string, error) {
+func GetPullRequest(owner string, repo string, prNumber int, callback OnGetPullRequestEvent) error {
 
 	ctx := context.Background()
 	client := github.NewClient(nil)
 	pullRequest, _, err := client.PullRequests.Get(ctx, owner, repo, prNumber)
 
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	pullRequest.GetDiffURL()
-	diffContents, err := http.Get(pullRequest.GetDiffURL())
+
+	ch := make(chan string)
+	go getDiffContents(ch, pullRequest.GetDiffURL())
+
+	contents := <-ch
+
+	callback(contents)
+
+	return nil
+}
+
+func getDiffContents(c chan<- string, diffURL string) {
+
+	diffContents, err := http.Get(diffURL)
 
 	if err != nil {
-		return "", err
+		c <- err.Error()
+		return
 	}
 
 	bodyBytes, err := io.ReadAll(diffContents.Body)
 
 	if err != nil {
-		return "", err
+		c <- err.Error()
+		return
 	}
 
-	return string(bodyBytes), nil
+	c <- string(bodyBytes)
 }

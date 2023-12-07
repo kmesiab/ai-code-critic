@@ -83,8 +83,18 @@ func LoadSampleDiffString() string {
 	return string(diffBytes)
 }
 
-func onAPIKeySubmitButtonClickedHandler(canceled bool) {
+func onAPIKeySubmitButtonClickedHandler(ok bool) {
+
+	if !ok {
+		return
+	}
+
 	input := criticWindow.PullRequestURLModal.TextEntry.Text
+
+	if input == "" {
+		return
+	}
+
 	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
 
 	if err != nil {
@@ -97,14 +107,13 @@ func onAPIKeySubmitButtonClickedHandler(canceled bool) {
 		log.Printf("Invalid PR number: %s", s2)
 	}
 
-	prContents, err := critic.GetPullRequest(url, s, prNumber)
+	err = critic.GetPullRequest(url, s, prNumber, func(prContents string) {
+		criticWindow.DiffPanel.SetText(prContents)
+	})
 
 	if err != nil {
 		log.Printf("Error parsing URL: %s", err)
 	}
-
-	criticWindow.DiffPanel.SetText(prContents)
-
 }
 
 func onMenuButtonClickedHandler() {
@@ -115,4 +124,5 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
+	log.Println(criticWindow.DiffPanel.Canvas.Text())
 }
