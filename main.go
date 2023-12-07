@@ -7,6 +7,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/dialog"
 
 	critic "github.com/kmesiab/ai-code-critic/internal"
 	"github.com/kmesiab/ai-code-critic/ui"
@@ -24,8 +25,13 @@ func main() {
 		onAPIKeySubmitButtonClickedHandler,
 	)
 
-	(*criticWindow.Window).ShowAndRun()
+	_, err := critic.GetConfig()
 
+	if err != nil {
+		dialog.ShowError(err, *criticWindow.Window)
+	}
+
+	(*criticWindow.Window).ShowAndRun()
 }
 
 func getCodeReview(prContents string) {
