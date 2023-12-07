@@ -17,26 +17,29 @@ func Initialize(
 
 	canvasSize := fyne.NewSize(critic.MainCanvasWidth, critic.MainCanvasHeight)
 
+	// Holds the pull request diff
 	diffPanel := components.NewDiffPanel(canvasSize, "")
+
+	// Holds the code review in Markdown format
 	reportPanel := components.NewReportPanel(canvasSize, critic.IntroMarkdown)
 
-	// The toolbar sits atop the horizontal container
+	// Holds the progress bar used when fetching the diff and review
+	progressBar := components.NewProgressBar(canvasSize)
+
+	// The toolbar exposes two buttons, one for the modal to enter a pull
+	// request url, and another to analyze the contents of the diffPanel
 	toolbar := components.NewToolBar(
 		fileOpenButtonClickedHandler,
 		analyzeButtonClickedHandler,
 	)
 
-	progressBar := components.NewProgressBar(canvasSize)
+	centerStage := container.NewHSplit(reportPanel.Canvas, diffPanel.Canvas)
+	mainStage := container.NewBorder(toolbar, progressBar.Canvas, nil, nil, centerStage)
 
-	// Lay out all the panels
-	horizontalContainer := container.NewHBox(reportPanel.Canvas, diffPanel.Canvas)
-	fullCanvas := container.NewVBox(toolbar, horizontalContainer, progressBar.Canvas)
-
-	// Create a main window and set the canvas as its content
+	// Main program window
 	window := app.NewWindow(critic.ApplicationName)
-	window.SetContent(fullCanvas)
+	window.SetContent(mainStage)
 	window.Resize(canvasSize)
-	window.SetFixedSize(true)
 
 	// Create the pull requests url modal
 	PullRequestURLModal := components.NewPullRequestURLModal(
@@ -50,7 +53,7 @@ func Initialize(
 		ReportPanel:         reportPanel,
 		DiffPanel:           diffPanel,
 		ToolBar:             &toolbar,
-		Canvas:              fullCanvas,
+		Canvas:              mainStage,
 		Window:              &window,
 		PullRequestURLModal: PullRequestURLModal,
 		ProgressBar:         progressBar,
