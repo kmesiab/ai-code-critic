@@ -3,6 +3,8 @@ package internal
 import (
 	"context"
 	"errors"
+	"io"
+	"net/http"
 	"strings"
 
 	"github.com/google/go-github/v57/github"
@@ -33,5 +35,18 @@ func GetPullRequest(owner string, repo string, prNumber int) (string, error) {
 		return "", err
 	}
 
-	return *pullRequest.Body, nil
+	pullRequest.GetDiffURL()
+	diffContents, err := http.Get(pullRequest.GetDiffURL())
+
+	if err != nil {
+		return "", err
+	}
+
+	bodyBytes, err := io.ReadAll(diffContents.Body)
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(bodyBytes), nil
 }

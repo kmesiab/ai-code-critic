@@ -3,6 +3,7 @@ package ui
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -84,7 +85,26 @@ func LoadSampleDiffString() string {
 
 func onAPIKeySubmitButtonClickedHandler(canceled bool) {
 	input := criticWindow.PullRequestURLModal.TextEntry.Text
-	log.Printf("Menu button clicked: %s", input)
+	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
+
+	if err != nil {
+		log.Printf("Error parsing URL: %s", err)
+	}
+
+	prNumber, err := strconv.Atoi(s2)
+
+	if err != nil {
+		log.Printf("Invalid PR number: %s", s2)
+	}
+
+	prContents, err := critic.GetPullRequest(url, s, prNumber)
+
+	if err != nil {
+		log.Printf("Error parsing URL: %s", err)
+	}
+
+	criticWindow.DiffPanel.SetText(prContents)
+
 }
 
 func onMenuButtonClickedHandler() {
@@ -95,5 +115,4 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
-	criticWindow.DiffPanel.SetText(LoadSampleDiffString())
 }
