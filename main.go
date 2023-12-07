@@ -8,6 +8,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 
 	critic "github.com/kmesiab/ai-code-critic/internal"
@@ -40,6 +41,7 @@ func getCodeReview(prContents string) {
 	resetPanel := func() {
 		criticWindow.ProgressBar.Canvas.Stop()
 		criticWindow.ProgressBar.Canvas.Hide()
+		criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
 		criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
 	}
 
@@ -51,7 +53,7 @@ func getCodeReview(prContents string) {
 		return
 	}
 
-	review = critic.ShortenLongLines(review)
+	review = critic.ShortenLongLines(review, "\n")
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
 	resetPanel()
 }
@@ -92,7 +94,7 @@ func onAPIKeySubmitButtonClickedHandler(ok bool) {
 
 func onGetPullRequestHandler(prContents string) {
 
-	prContents = critic.ShortenLongLines(prContents)
+	prContents = critic.ShortenLongLines(prContents, "\n\n")
 
 	// Set the diff text
 	criticWindow.DiffPanel.SetDiffText(prContents)
@@ -112,10 +114,14 @@ func onFileOpenButtonClickedHandler() {
 
 func onAnalyzeButtonClickedHandler() {
 
-	criticWindow.ReportPanel.Canvas.Resize(ShrinkByHalf(criticWindow.ReportPanel.Size))
-	criticWindow.DiffPanel.Canvas.Resize(ShrinkByHalf(criticWindow.DiffPanel.Size))
+	windowSize := (*criticWindow.Window).Canvas().Size()
+	halfSize := ShrinkByHalf(windowSize)
+
+	criticWindow.ReportPanel.Canvas.Resize(halfSize)
+	criticWindow.DiffPanel.Canvas.Resize(halfSize)
+
 	(*criticWindow.Window).CenterOnScreen()
-	(*criticWindow.Window).Resize(criticWindow.Size)
+	(*criticWindow.Window).Resize(windowSize)
 
 }
 

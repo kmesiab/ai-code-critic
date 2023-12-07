@@ -4,13 +4,15 @@ import (
 	"strings"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
 	critic "github.com/kmesiab/ai-code-critic/internal"
 )
 
 type DiffPanel struct {
-	Canvas   *widget.TextGrid
+	Canvas   *container.Scroll // the scrollable parent
+	TextGrid *widget.TextGrid  // the actual widget
 	Size     fyne.Size
 	MaxLines int
 }
@@ -22,10 +24,13 @@ func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
 	grid := widget.NewTextGrid()
 	grid.ShowLineNumbers = true
 
+	scrollableParent := container.NewScroll(grid)
+
 	panel := DiffPanel{
-		Canvas:   grid,
+		Canvas:   scrollableParent,
+		TextGrid: grid,
 		Size:     newSize,
-		MaxLines: 25,
+		MaxLines: 100,
 	}
 
 	return panel.SetDiffText(text)
@@ -61,7 +66,7 @@ func (grid *DiffPanel) SetDiffText(text string) *DiffPanel {
 			)
 		}
 
-		grid.Canvas.SetRow(i, textGridRow)
+		grid.TextGrid.SetRow(i, textGridRow)
 
 	}
 
