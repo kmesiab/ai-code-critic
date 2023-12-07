@@ -13,13 +13,15 @@ import (
 )
 
 type CriticWindow struct {
-	Size          fyne.Size               // The size of the application window
-	ReportPanel   *components.ReportPanel // the left panel
-	DiffPanel     *components.DiffPanel   // The right panel
-	ToolBar       *fyne.CanvasObject      // the top toolbar menu
-	CenterDivider *widget.Separator       // A separator between the two panels
-	Canvas        *fyne.Container         // A vertical box containing the ui components
-	Window        *fyne.Window            // The main application window
+	App                 *fyne.App
+	Size                fyne.Size                       // The size of the application window
+	ReportPanel         *components.ReportPanel         // the left panel
+	DiffPanel           *components.DiffPanel           // The right panel
+	ToolBar             *fyne.CanvasObject              // the top toolbar menu
+	CenterDivider       *widget.Separator               // A separator between the two panels
+	Canvas              *fyne.Container                 // A vertical box containing the ui components
+	Window              *fyne.Window                    // The main application window
+	PullRequestURLModal *components.PullRequestURLModal // The API key modal
 }
 
 var criticWindow *CriticWindow
@@ -50,14 +52,21 @@ func Initialize(app fyne.App) *CriticWindow {
 	window.SetContent(fullCanvas)
 	window.Resize(canvasSize)
 
+	PullRequestURLModal := components.NewPullRequestURLModal(
+		critic.PullRequestURLModalDefaultText, &window,
+		onAPIKeySubmitButtonClickedHandler,
+	)
+
 	criticWindow = &CriticWindow{
-		Size:          canvasSize,
-		ReportPanel:   left,
-		DiffPanel:     right,
-		ToolBar:       &toolbar,
-		CenterDivider: center,
-		Canvas:        fullCanvas,
-		Window:        &window,
+		App:                 &app,
+		Size:                canvasSize,
+		ReportPanel:         left,
+		DiffPanel:           right,
+		ToolBar:             &toolbar,
+		CenterDivider:       center,
+		Canvas:              fullCanvas,
+		Window:              &window,
+		PullRequestURLModal: PullRequestURLModal,
 	}
 
 	return criticWindow
@@ -73,14 +82,16 @@ func LoadSampleDiffString() string {
 	return string(diffBytes)
 }
 
-func onMenuButtonClickedHandler() {
-	log.Print(critic.DragAndDropMarkdown)
+func onAPIKeySubmitButtonClickedHandler(canceled bool) {
+	input := criticWindow.PullRequestURLModal.TextEntry.Text
+	log.Printf("Menu button clicked: %s", input)
+}
 
-	criticWindow.ReportPanel.SetText(critic.IntroMarkdown).Refresh()
+func onMenuButtonClickedHandler() {
 }
 
 func onFileOpenButtonClickedHandler() {
-	criticWindow.ReportPanel.SetText(critic.MoreInfoMarkdown).Refresh()
+	criticWindow.PullRequestURLModal.Form.Show()
 }
 
 func onAnalyzeButtonClickedHandler() {
