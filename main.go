@@ -112,6 +112,7 @@ func onGetPullRequestHandler(prContents string) {
 }
 
 func onFileOpenButtonClickedHandler() {
+	criticWindow.PullRequestURLModal.TextEntry.Text = ""
 	criticWindow.PullRequestURLModal.Form.Show()
 }
 
