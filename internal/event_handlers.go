@@ -1,9 +1,9 @@
 package internal
 
 type (
-	MenuButtonClickedEventHandler    func()
-	SubmitButtonClickedEventHandler  func(bool)
-	FileOpenClickedEventHandler      func()
-	AnalyzeButtonClickedEventHandler func()
-	OnGetPullRequestEvent            func(pullRequest string)
+	MenuButtonClickedEventHandler          func()
+	SubmitButtonClickedEventHandler        func(bool)
+	PullRequestMenuItemClickedEventHandler func()
+	AnalyzeButtonClickedEventHandler       func()
+	OnGetPullRequestEvent                  func(pullRequest string)
 )

@@ -114,17 +114,18 @@ func onFileOpenButtonClickedHandler() {
 
 func onAnalyzeButtonClickedHandler() {
 
-	windowSize := (*criticWindow.Window).Canvas().Size()
-	halfSize := ShrinkByHalf(windowSize)
-
-	criticWindow.ReportPanel.Canvas.Resize(halfSize)
-	criticWindow.DiffPanel.Canvas.Resize(halfSize)
-
+	ResetCenterStage()
 	(*criticWindow.Window).CenterOnScreen()
-	(*criticWindow.Window).Resize(windowSize)
-
 }
 
 func ShrinkByHalf(size fyne.Size) fyne.Size {
 	return fyne.NewSize(size.Width/2, size.Height/2)
+}
+
+func ResetCenterStage() {
+	halfSize := ShrinkByHalf(
+		(*criticWindow.Window).Canvas().Size(),
+	)
+	criticWindow.ReportPanel.Canvas.Resize(halfSize)
+	criticWindow.DiffPanel.Canvas.Resize(halfSize)
 }

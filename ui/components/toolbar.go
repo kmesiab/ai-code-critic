@@ -10,15 +10,15 @@ import (
 )
 
 func NewToolBar(
-	fileOpenButtonHandler critic.FileOpenClickedEventHandler,
+	pullRequestMenuItemClickedEventHandler critic.PullRequestMenuItemClickedEventHandler,
 	analyzeButtonHandler critic.AnalyzeButtonClickedEventHandler,
 ) fyne.CanvasObject {
 	toolbar := widget.NewToolbar(
 
-		// File open button
-		widget.NewToolbarAction(theme.ContentAddIcon(), fileOpenButtonHandler),
+		// Open pull request button
+		widget.NewToolbarAction(theme.ContentAddIcon(), pullRequestMenuItemClickedEventHandler),
 
-		// Analyze button
+		// Analyze diff button
 		widget.NewToolbarAction(theme.MediaPlayIcon(), analyzeButtonHandler),
 	)
 
