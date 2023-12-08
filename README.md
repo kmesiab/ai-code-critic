@@ -27,7 +27,7 @@ To install AI-Code-Critic, you need to have Go installed on your machine.
 Follow these steps:
 
 ```bash
-go install github.com/kmesiab/ai-code-critic
+go install github.com/kmesiab/ai-code-critic@latest
 ```
 
 To run the program:
