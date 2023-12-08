@@ -10,7 +10,7 @@ import (
 
 func Initialize(
 	app fyne.App,
-	fileOpenButtonClickedHandler critic.FileOpenClickedEventHandler,
+	pullRequestMenuItemClickedEventHandler critic.PullRequestMenuItemClickedEventHandler,
 	analyzeButtonClickedHandler critic.AnalyzeButtonClickedEventHandler,
 	submitButtonClickedEventHandler critic.SubmitButtonClickedEventHandler,
 ) *CriticWindow {
@@ -29,7 +29,7 @@ func Initialize(
 	// The toolbar exposes two buttons, one for the modal to enter a pull
 	// request url, and another to analyze the contents of the diffPanel
 	toolbar := components.NewToolBar(
-		fileOpenButtonClickedHandler,
+		pullRequestMenuItemClickedEventHandler,
 		analyzeButtonClickedHandler,
 	)
 
