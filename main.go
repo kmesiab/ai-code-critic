@@ -24,7 +24,7 @@ func main() {
 	criticWindow = ui.Initialize(application,
 		onFileOpenButtonClickedHandler,
 		onAnalyzeButtonClickedHandler,
-		onAPIKeySubmitButtonClickedHandler,
+		onPullRequestModalClickedHandler,
 	)
 
 	_, err := critic.GetConfig()
@@ -58,7 +58,7 @@ func getCodeReview(prContents string) {
 	resetPanel()
 }
 
-func onAPIKeySubmitButtonClickedHandler(ok bool) {
+func onPullRequestModalClickedHandler(ok bool) {
 
 	if !ok {
 		return
