@@ -104,7 +104,21 @@ page.
 6. **Create a Pull Request**: Go to your fork on GitHub and click the
 'Compare & pull request' button.
 
-Please ensure your code adheres to the project's standards and guidelines.
+## Github Guidelines
+
+Please ensure your code adheres to the project's
+[standards and guidelines](https://github.com/kmesiab/ai-code-critic/discussions/24).
+
+### Quick Tips
+
+Run `make lint` before committing to ensure your code is properly formatted.
+
+1. **Always rebase, never merge commit**
+2. Always use a description commit message
+3. Separate your title from your description
+4. Keep commit messages under 50 characters
+5. Start your branch with `feat|bugfix|docs|style|refactor|perf|test`
+6. Squash your commits into logical units of work
 
 ## License 📝
 

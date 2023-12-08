@@ -18,7 +18,6 @@ type DiffPanel struct {
 }
 
 func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
-
 	newSize := fyne.NewSize(size.Width/.25, size.Height)
 
 	grid := widget.NewTextGrid()

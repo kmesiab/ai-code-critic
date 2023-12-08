@@ -12,7 +12,6 @@ type ReportPanel struct {
 }
 
 func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
-
 	// Set it to half the width of the parent container
 	newSize := fyne.NewSize(containerSize.Width/2, containerSize.Height)
 	richText := widget.NewRichTextFromMarkdown(text)
