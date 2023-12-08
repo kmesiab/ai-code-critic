@@ -9,7 +9,6 @@ import (
 
 func GetAPIKey() (string, error) {
 	cfg, err := GetConfig()
-
 	if err != nil {
 		return "", err
 	}
@@ -19,12 +18,10 @@ func GetAPIKey() (string, error) {
 	}
 
 	return cfg.OpenAIAPIKey, nil
-
 }
 
 func GetCodeReviewFromAPI(diff string) (string, error) {
 	apiKey, err := GetAPIKey()
-
 	if err != nil {
 		return "", err
 	}
@@ -67,7 +64,6 @@ func GetCodeReviewFromAPI(diff string) (string, error) {
 			},
 		},
 	)
-
 	if err != nil {
 		return "", err
 	}

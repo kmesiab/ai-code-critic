@@ -19,7 +19,6 @@ func NewPullRequestURLModal(
 	parentWindow *fyne.Window,
 	onSubmitHandler critic.SubmitButtonClickedEventHandler,
 ) *PullRequestURLModal {
-
 	entry := widget.NewEntry()
 	textEntryFormItem := widget.NewFormItem("", entry)
 

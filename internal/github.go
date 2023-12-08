@@ -11,7 +11,6 @@ import (
 )
 
 func ParseGithubPullRequestURL(pullRequestURL string) (string, string, string, error) {
-
 	parts := strings.Split(pullRequestURL, "/")
 
 	if len(parts) != 7 {
@@ -26,11 +25,9 @@ func ParseGithubPullRequestURL(pullRequestURL string) (string, string, string, e
 }
 
 func GetPullRequest(owner string, repo string, prNumber int, callback OnGetPullRequestEvent) error {
-
 	ctx := context.Background()
 	client := github.NewClient(nil)
 	pullRequest, _, err := client.PullRequests.Get(ctx, owner, repo, prNumber)
-
 	if err != nil {
 		return err
 	}
@@ -48,16 +45,13 @@ func GetPullRequest(owner string, repo string, prNumber int, callback OnGetPullR
 }
 
 func getDiffContents(c chan<- string, diffURL string) {
-
 	diffContents, err := http.Get(diffURL)
-
 	if err != nil {
 		c <- err.Error()
 		return
 	}
 
 	bodyBytes, err := io.ReadAll(diffContents.Body)
-
 	if err != nil {
 		c <- err.Error()
 		return

@@ -11,7 +11,6 @@ type ProgressBar struct {
 }
 
 func NewProgressBar(containerSize fyne.Size) *ProgressBar {
-
 	// Set it to half the width of the parent container
 	newSize := fyne.NewSize(containerSize.Width*.3, containerSize.Height)
 	progressBar := widget.NewProgressBarInfinite()

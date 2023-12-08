@@ -14,7 +14,6 @@ func Initialize(
 	analyzeButtonClickedHandler critic.AnalyzeButtonClickedEventHandler,
 	submitButtonClickedEventHandler critic.SubmitButtonClickedEventHandler,
 ) *CriticWindow {
-
 	canvasSize := fyne.NewSize(critic.MainCanvasWidth, critic.MainCanvasHeight)
 
 	// Holds the pull request diff

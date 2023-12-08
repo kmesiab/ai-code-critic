@@ -28,7 +28,6 @@ func main() {
 	)
 
 	_, err := critic.GetConfig()
-
 	if err != nil {
 		dialog.ShowError(err, *criticWindow.Window)
 	}
@@ -37,7 +36,6 @@ func main() {
 }
 
 func getCodeReview(prContents string) {
-
 	resetPanel := func() {
 		criticWindow.ProgressBar.Canvas.Stop()
 		criticWindow.ProgressBar.Canvas.Hide()
@@ -46,7 +44,6 @@ func getCodeReview(prContents string) {
 	}
 
 	review, err := critic.GetCodeReviewFromAPI(prContents)
-
 	if err != nil {
 		resetPanel()
 		dialog.ShowError(fmt.Errorf("error getting review: %s", err), *criticWindow.Window)
@@ -59,7 +56,6 @@ func getCodeReview(prContents string) {
 }
 
 func onPullRequestModalClickedHandler(ok bool) {
-
 	if !ok {
 		return
 	}
@@ -74,13 +70,11 @@ func onPullRequestModalClickedHandler(ok bool) {
 	}
 
 	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
-
 	if err != nil {
 		critic.Logf("Error parsing URL: %s", err)
 	}
 
 	prNumber, err := strconv.Atoi(s2)
-
 	if err != nil {
 		critic.Logf("Invalid PR number: %s", s2)
 	}
@@ -93,7 +87,6 @@ func onPullRequestModalClickedHandler(ok bool) {
 }
 
 func onGetPullRequestHandler(prContents string) {
-
 	// prContents = critic.ShortenLongLines(prContents, "\n\n")
 
 	// Set the diff text
@@ -105,7 +98,6 @@ func onGetPullRequestHandler(prContents string) {
 
 	// Send the pull request to the LLM
 	getCodeReview(prContents)
-
 }
 
 func onFileOpenButtonClickedHandler() {
@@ -113,7 +105,6 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
-
 	ResetCenterStage()
 	(*criticWindow.Window).CenterOnScreen()
 }
