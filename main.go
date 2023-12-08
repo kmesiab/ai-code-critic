@@ -94,7 +94,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 
 func onGetPullRequestHandler(prContents string) {
 
-	prContents = critic.ShortenLongLines(prContents, "\n\n")
+	// prContents = critic.ShortenLongLines(prContents, "\n\n")
 
 	// Set the diff text
 	criticWindow.DiffPanel.SetDiffText(prContents)

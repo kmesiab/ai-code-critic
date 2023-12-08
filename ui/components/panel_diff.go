@@ -30,7 +30,7 @@ func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
 		Canvas:   scrollableParent,
 		TextGrid: grid,
 		Size:     newSize,
-		MaxLines: 100,
+		MaxLines: 500,
 	}
 
 	return panel.SetDiffText(text)
