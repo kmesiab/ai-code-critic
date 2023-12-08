@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
@@ -59,14 +58,14 @@ func onPullRequestModalClickedHandler(ok bool) {
 		return
 	}
 
-	criticWindow.ProgressBar.Canvas.Start()
-	criticWindow.ProgressBar.Canvas.Show()
-
 	input := criticWindow.PullRequestURLModal.TextEntry.Text
 
 	if input == "" {
 		return
 	}
+
+	criticWindow.ProgressBar.Canvas.Start()
+	criticWindow.ProgressBar.Canvas.Show()
 
 	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
 
@@ -122,21 +121,14 @@ func onAnalyzeButtonClickedHandler() {
 	(*criticWindow.Window).CenterOnScreen()
 }
 
-func ShrinkByHalf(size fyne.Size) fyne.Size {
-	return fyne.NewSize(size.Width/2, size.Height/2)
-}
-
 func ResetCenterStage() {
-	halfSize := ShrinkByHalf(
-		(*criticWindow.Window).Canvas().Size(),
-	)
 
-	criticWindow.DiffPanel.Canvas.Resize(halfSize)
+	criticWindow.DiffPanel.Canvas.Resize(criticWindow.DiffPanel.Canvas.Size())
 
 	criticWindow.ProgressBar.Canvas.Stop()
 	criticWindow.ProgressBar.Canvas.Hide()
 
-	criticWindow.ReportPanel.Canvas.Resize(halfSize)
+	criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Canvas.Size())
 	criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
 
 }
