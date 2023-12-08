@@ -13,4 +13,4 @@ across various programming languages, utilizing OpenAI's ChatGPT API.
 It offers intelligent insights and suggestions to improve code quality
 and developer efficiency.
 
-## For Developer 🛠️
+## For Developer 🛠
