@@ -28,6 +28,7 @@ func main() {
 	)
 
 	_, err := critic.GetConfig()
+
 	if err != nil {
 		dialog.ShowError(err, *criticWindow.Window)
 	}
@@ -36,26 +37,24 @@ func main() {
 }
 
 func getCodeReview(prContents string) {
-	resetPanel := func() {
-		criticWindow.ProgressBar.Canvas.Stop()
-		criticWindow.ProgressBar.Canvas.Hide()
-		criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
-		criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
-	}
+
+	ResetCenterStage()
 
 	review, err := critic.GetCodeReviewFromAPI(prContents)
+
 	if err != nil {
-		resetPanel()
+		ResetCenterStage()
 		dialog.ShowError(fmt.Errorf("error getting review: %s", err), *criticWindow.Window)
 		return
 	}
 
 	review = critic.ShortenLongLines(review, "\n")
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
-	resetPanel()
+	ResetCenterStage()
 }
 
 func onPullRequestModalClickedHandler(ok bool) {
+
 	if !ok {
 		return
 	}
@@ -70,23 +69,35 @@ func onPullRequestModalClickedHandler(ok bool) {
 	}
 
 	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
+
 	if err != nil {
-		critic.Logf("Error parsing URL: %s", err)
+		dialog.ShowError(fmt.Errorf("error parsing URL: %s", err), *criticWindow.Window)
+		ResetCenterStage()
+
+		return
 	}
 
 	prNumber, err := strconv.Atoi(s2)
+
 	if err != nil {
-		critic.Logf("Invalid PR number: %s", s2)
+		dialog.ShowError(fmt.Errorf("invalid PR number: %s", err), *criticWindow.Window)
+		ResetCenterStage()
+
+		return
 	}
 
 	err = critic.GetPullRequest(url, s, prNumber, onGetPullRequestHandler)
 
 	if err != nil {
-		critic.Logf("Error getting PR: %s", err)
+		dialog.ShowError(fmt.Errorf("error getting PR: %s", err), *criticWindow.Window)
+		ResetCenterStage()
+
+		return
 	}
 }
 
 func onGetPullRequestHandler(prContents string) {
+
 	// prContents = critic.ShortenLongLines(prContents, "\n\n")
 
 	// Set the diff text
@@ -98,6 +109,7 @@ func onGetPullRequestHandler(prContents string) {
 
 	// Send the pull request to the LLM
 	getCodeReview(prContents)
+
 }
 
 func onFileOpenButtonClickedHandler() {
@@ -105,6 +117,7 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
+
 	ResetCenterStage()
 	(*criticWindow.Window).CenterOnScreen()
 }
@@ -117,6 +130,13 @@ func ResetCenterStage() {
 	halfSize := ShrinkByHalf(
 		(*criticWindow.Window).Canvas().Size(),
 	)
-	criticWindow.ReportPanel.Canvas.Resize(halfSize)
+
 	criticWindow.DiffPanel.Canvas.Resize(halfSize)
+
+	criticWindow.ProgressBar.Canvas.Stop()
+	criticWindow.ProgressBar.Canvas.Hide()
+
+	criticWindow.ReportPanel.Canvas.Resize(halfSize)
+	criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
+
 }
