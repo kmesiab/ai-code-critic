@@ -1,3 +1,4 @@
 .env
 .idea
-./critic
+.DS_Store
+ai-code-critic
