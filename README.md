@@ -3,6 +3,7 @@
  ![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go.yml/badge.svg)
  
 ![Golang](https://img.shields.io/badge/Go-00add8.svg?labelColor=171e21&style=for-the-badge&logo=go)
+
 ## Overview 🌟
 
 AI-Code-Critic is a desktop application designed to automate code reviews
