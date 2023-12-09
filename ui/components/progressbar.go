@@ -11,11 +11,31 @@ type ProgressBar struct {
 }
 
 func NewProgressBar(containerSize fyne.Size) *ProgressBar {
-	// Set it to half the width of the parent container
-	newSize := fyne.NewSize(containerSize.Width*.3, containerSize.Height)
+	newSize := fyne.NewSize(containerSize.Width, containerSize.Height)
 	progressBar := widget.NewProgressBarInfinite()
 	progressBar.Stop()
-	progressBar.Resize(newSize)
 
 	return &ProgressBar{Canvas: progressBar, Size: newSize}
+}
+
+func (p *ProgressBar) Resize(newSize fyne.Size) {
+	p.Canvas.Resize(newSize)
+}
+
+func (p *ProgressBar) IsRunning() bool {
+	return p.Canvas.Running()
+}
+
+func (p *ProgressBar) StartProgressBar() {
+	if !p.Canvas.Running() {
+		p.Canvas.Start()
+		p.Canvas.Show()
+	}
+}
+
+func (p *ProgressBar) StopProgressBar() {
+	if p.Canvas.Running() {
+		p.Canvas.Stop()
+		p.Canvas.Hide()
+	}
 }

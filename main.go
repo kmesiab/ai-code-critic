@@ -37,7 +37,7 @@ func main() {
 
 func getCodeReview(prContents string) {
 
-	ResetCenterStage()
+	criticWindow.ProgressBar.StartProgressBar()
 
 	review, err := critic.GetCodeReviewFromAPI(prContents)
 
@@ -47,7 +47,6 @@ func getCodeReview(prContents string) {
 		return
 	}
 
-	review = critic.ShortenLongLines(review, "\n")
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
 	ResetCenterStage()
 }
@@ -97,17 +96,14 @@ func onPullRequestModalClickedHandler(ok bool) {
 
 func onGetPullRequestHandler(prContents string) {
 
-	// prContents = critic.ShortenLongLines(prContents, "\n\n")
-
 	// Set the diff text
 	criticWindow.DiffPanel.SetDiffText(prContents)
 
 	// Set the report
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
-	criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Size)
 
 	// Send the pull request to the LLM
-	getCodeReview(prContents)
+	go getCodeReview(prContents)
 
 }
 
@@ -117,19 +113,22 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
+	diff := criticWindow.DiffPanel.TextGrid.Text()
 
-	ResetCenterStage()
-	(*criticWindow.Window).CenterOnScreen()
+	if diff == "" || criticWindow.DiffPanel.IsDefaultText() {
+		dialog.ShowError(fmt.Errorf("the diff is empty"), *criticWindow.Window)
+
+		return
+	}
+
+	go getCodeReview(diff)
 }
 
 func ResetCenterStage() {
 
-	criticWindow.DiffPanel.Canvas.Resize(criticWindow.DiffPanel.Canvas.Size())
-
-	criticWindow.ProgressBar.Canvas.Stop()
-	criticWindow.ProgressBar.Canvas.Hide()
-
-	criticWindow.ReportPanel.Canvas.Resize(criticWindow.ReportPanel.Canvas.Size())
+	criticWindow.DiffPanel.Resize()
+	criticWindow.ReportPanel.Resize()
 	criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
+	criticWindow.ProgressBar.StopProgressBar()
 
 }
