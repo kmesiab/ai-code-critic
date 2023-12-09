@@ -4,8 +4,6 @@
 
 ![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go.yml/badge.svg)
 
-![Logo](./assets/logo.png)
-
 ## Overview 🌟
 
 AI-Code-Critic is a desktop application designed to automate code reviews
