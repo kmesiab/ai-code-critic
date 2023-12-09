@@ -35,6 +35,14 @@ func NewDiffPanel(size fyne.Size, text string) *DiffPanel {
 	return panel.SetDiffText(text)
 }
 
+func (grid *DiffPanel) Resize() {
+	grid.Canvas.Resize(grid.Size)
+}
+
+func (grid *DiffPanel) IsDefaultText() bool {
+	return critic.IntroMarkdown == grid.TextGrid.Text()
+}
+
 func (grid *DiffPanel) SetDiffText(text string) *DiffPanel {
 	lines := strings.Split(text, "\n")
 
