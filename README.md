@@ -3,6 +3,7 @@
 ![Golang](https://img.shields.io/badge/Go-00add8.svg?labelColor=171e21&style=for-the-badge&logo=go)
 
 ![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kmesiab/ai-code-critic)](https://goreportcard.com/report/github.com/kmesiab/ai-code-critic)
 
 ## Overview 🌟
 
