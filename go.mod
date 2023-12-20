@@ -5,11 +5,12 @@ go 1.21
 toolchain go1.21.4
 
 require (
-	fyne.io/fyne/v2 v2.4.2
+	fyne.io/fyne/v2 v2.4.3-rc2
 	github.com/Netflix/go-env v0.0.0-20220526054621-78278af1949d
 	github.com/google/go-github/v57 v57.0.0
 	github.com/sashabaranov/go-openai v1.17.9
 	github.com/sirupsen/logrus v1.9.3
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
@@ -23,7 +24,7 @@ require (
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20231124074035-2de0cf0c80af // indirect
 	github.com/go-text/render v0.0.0-20230619120952-35bccb6164b8 // indirect
-	github.com/go-text/typesetting v0.0.0-20231219150831-cc0073efdbb4 // indirect
+	github.com/go-text/typesetting v0.0.0-20231126133128-3b7c9205d99e // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
@@ -31,7 +32,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/yuin/goldmark v1.6.0 // indirect
 	golang.org/x/image v0.14.0 // indirect
