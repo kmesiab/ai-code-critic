@@ -29,6 +29,12 @@ Follow these steps:
 go install github.com/kmesiab/ai-code-critic@latest
 ```
 
+Set your OpenAI API Key
+
+```bash
+echo "export OPENAI_API_KEY=sk-[SECRET]" > .env && source .env
+```
+
 To run the program:
 
 ```bash
