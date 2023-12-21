@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"sync"
+	"time"
 
 	goenv "github.com/Netflix/go-env"
 )
@@ -16,7 +17,8 @@ import (
 //	    DatabaseURL string `env:"DATABASE_URL"`
 //	}
 type Config struct {
-	OpenAIAPIKey string `env:"OPENAI_API_KEY"`
+	OpenAIAPIKey   string        `env:"OPENAI_API_KEY"`
+	ContextTimeout time.Duration `env:"CONTEXT_TIMEOUT,default=5s"`
 }
 
 // config is a singleton instance of Config
