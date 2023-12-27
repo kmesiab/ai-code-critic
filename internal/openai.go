@@ -20,7 +20,7 @@ func GetAPIKey() (string, error) {
 	return cfg.OpenAIAPIKey, nil
 }
 
-func GetCodeReviewFromAPI(diff string) (string, error) {
+func GetCodeReviewFromAPI(diff, gptModel string) (string, error) {
 	apiKey, err := GetAPIKey()
 	if err != nil {
 		return "", err
@@ -55,7 +55,7 @@ func GetCodeReviewFromAPI(diff string) (string, error) {
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model: openai.GPT4TurboPreview,
+			Model: gptModel,
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleUser,

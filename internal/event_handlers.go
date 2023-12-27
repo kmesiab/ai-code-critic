@@ -1,9 +1,9 @@
 package internal
 
 type (
-	MenuButtonClickedEventHandler          func()
-	SubmitButtonClickedEventHandler        func(bool)
-	PullRequestMenuItemClickedEventHandler func()
-	AnalyzeButtonClickedEventHandler       func()
-	OnGetPullRequestEvent                  func(pullRequest string)
+	OnMenuButtonClickedEvent          func()
+	OnSubmitButtonClickedEvent        func(bool)
+	OnPullRequestMenuItemClickedEvent func()
+	OnAnalyzeButtonClickedEvent       func()
+	OnGetPullRequestEvent             func(gptModel, pullRequest string)
 )

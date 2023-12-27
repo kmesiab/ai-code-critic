@@ -11,18 +11,21 @@ import (
 type PullRequestURLModal struct {
 	Form      *dialog.FormDialog
 	TextEntry *widget.Entry
+	GPTModel  *widget.SelectEntry
 }
 
 func NewPullRequestURLModal(
 	size fyne.Size,
 	defaultText string,
 	parentWindow *fyne.Window,
-	onSubmitHandler critic.SubmitButtonClickedEventHandler,
+	onSubmitHandler critic.OnSubmitButtonClickedEvent,
 ) *PullRequestURLModal {
-	entry := widget.NewEntry()
-	textEntryFormItem := widget.NewFormItem("", entry)
+	textEntry := widget.NewEntry()
+	textEntryFormItem := widget.NewFormItem("Github PR URL", textEntry)
+	gptModelEntry := widget.NewSelectEntry(critic.SupportedGPTModels)
+	gptModelEntryFormItem := widget.NewFormItem("GPT Model", gptModelEntry)
 
-	formItems := []*widget.FormItem{textEntryFormItem}
+	formItems := []*widget.FormItem{textEntryFormItem, gptModelEntryFormItem}
 
 	f := dialog.NewForm(
 		defaultText,
@@ -36,5 +39,5 @@ func NewPullRequestURLModal(
 	newSize := fyne.NewSize(size.Width/.7, f.MinSize().Height)
 	f.Resize(newSize)
 
-	return &PullRequestURLModal{Form: f, TextEntry: entry}
+	return &PullRequestURLModal{Form: f, TextEntry: textEntry, GPTModel: gptModelEntry}
 }

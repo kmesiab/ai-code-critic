@@ -10,9 +10,9 @@ import (
 
 func Initialize(
 	app fyne.App,
-	pullRequestMenuItemClickedEventHandler critic.PullRequestMenuItemClickedEventHandler,
-	analyzeButtonClickedHandler critic.AnalyzeButtonClickedEventHandler,
-	submitButtonClickedEventHandler critic.SubmitButtonClickedEventHandler,
+	pullRequestMenuItemClickedEventHandler critic.OnPullRequestMenuItemClickedEvent,
+	analyzeButtonClickedHandler critic.OnAnalyzeButtonClickedEvent,
+	submitButtonClickedEventHandler critic.OnSubmitButtonClickedEvent,
 ) *CriticWindow {
 	canvasSize := fyne.NewSize(critic.MainCanvasWidth, critic.MainCanvasHeight)
 

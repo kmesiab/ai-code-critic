@@ -25,7 +25,7 @@ func ParseGithubPullRequestURL(pullRequestURL string) (string, string, string, e
 	return owner, repo, prNumber, nil
 }
 
-func GetPullRequest(owner string, repo string, prNumber int, callback OnGetPullRequestEvent) error {
+func GetPullRequest(owner string, repo string, gptModel string, prNumber int, callback OnGetPullRequestEvent) error {
 	timeout, err := GetContextTimeout()
 	if err != nil {
 		return err
@@ -46,7 +46,7 @@ func GetPullRequest(owner string, repo string, prNumber int, callback OnGetPullR
 
 	contents := <-ch
 
-	callback(contents)
+	callback(contents, gptModel)
 
 	return nil
 }
