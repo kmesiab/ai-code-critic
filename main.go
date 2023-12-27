@@ -35,11 +35,11 @@ func main() {
 	(*criticWindow.Window).ShowAndRun()
 }
 
-func getCodeReview(prContents string) {
+func getCodeReview(prContents, gptModel string) {
 
 	criticWindow.ProgressBar.StartProgressBar()
 
-	review, err := critic.GetCodeReviewFromAPI(prContents)
+	review, err := critic.GetCodeReviewFromAPI(prContents, gptModel)
 
 	if err != nil {
 		ResetCenterStage()
@@ -58,8 +58,9 @@ func onPullRequestModalClickedHandler(ok bool) {
 	}
 
 	input := criticWindow.PullRequestURLModal.TextEntry.Text
+	gptModel := criticWindow.PullRequestURLModal.GPTModel.Text
 
-	if input == "" {
+	if input == "" || gptModel == "" {
 		return
 	}
 
@@ -84,7 +85,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 		return
 	}
 
-	err = critic.GetPullRequest(url, s, prNumber, onGetPullRequestHandler)
+	err = critic.GetPullRequest(url, s, gptModel, prNumber, onGetPullRequestHandler)
 
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("error getting PR: %s", err), *criticWindow.Window)
@@ -94,7 +95,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 	}
 }
 
-func onGetPullRequestHandler(prContents string) {
+func onGetPullRequestHandler(prContents, gptModel string) {
 
 	// Set the diff text
 	criticWindow.DiffPanel.SetDiffText(prContents)
@@ -103,25 +104,32 @@ func onGetPullRequestHandler(prContents string) {
 	criticWindow.ReportPanel.Canvas.ParseMarkdown(critic.WaitingForReportMarkdown)
 
 	// Send the pull request to the LLM
-	go getCodeReview(prContents)
+	go getCodeReview(prContents, gptModel)
 
 }
 
 func onFileOpenButtonClickedHandler() {
 	criticWindow.PullRequestURLModal.TextEntry.Text = ""
+	criticWindow.PullRequestURLModal.GPTModel.Text = "Select one or type"
 	criticWindow.PullRequestURLModal.Form.Show()
 }
 
 func onAnalyzeButtonClickedHandler() {
 	diff := criticWindow.DiffPanel.TextGrid.Text()
+	gptModel := criticWindow.PullRequestURLModal.GPTModel.Text
 
 	if diff == "" || criticWindow.DiffPanel.IsDefaultText() {
 		dialog.ShowError(fmt.Errorf("the diff is empty"), *criticWindow.Window)
 
 		return
 	}
+	if gptModel == "" {
+		dialog.ShowError(fmt.Errorf("no gpt model specified"), *criticWindow.Window)
 
-	go getCodeReview(diff)
+		return
+	}
+
+	go getCodeReview(diff, gptModel)
 }
 
 func ResetCenterStage() {

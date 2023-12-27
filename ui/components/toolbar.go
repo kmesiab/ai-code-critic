@@ -10,8 +10,8 @@ import (
 )
 
 func NewToolBar(
-	pullRequestMenuItemClickedEventHandler critic.PullRequestMenuItemClickedEventHandler,
-	analyzeButtonHandler critic.AnalyzeButtonClickedEventHandler,
+	pullRequestMenuItemClickedEventHandler critic.OnPullRequestMenuItemClickedEvent,
+	analyzeButtonHandler critic.OnAnalyzeButtonClickedEvent,
 ) fyne.CanvasObject {
 	toolbar := widget.NewToolbar(
 
