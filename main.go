@@ -115,6 +115,13 @@ func onFileOpenButtonClickedHandler() {
 }
 
 func onAnalyzeButtonClickedHandler() {
+	// Prevent re-entry if already processing
+	if criticWindow.IsAnalyzeButtonActive {
+		dialog.ShowInformation("Analyze in Progress", "Analysis is already in progress. Please wait until the current process is complete.", *criticWindow.Window)
+
+		return
+	}
+
 	diff := criticWindow.DiffPanel.TextGrid.Text()
 	gptModel := criticWindow.PullRequestURLModal.GPTModel.Text
 
@@ -129,7 +136,12 @@ func onAnalyzeButtonClickedHandler() {
 		return
 	}
 
-	go getCodeReview(diff, gptModel)
+	criticWindow.IsAnalyzeButtonActive = true
+
+	go func() {
+		getCodeReview(diff, gptModel)
+		criticWindow.IsAnalyzeButtonActive = false
+	}()
 }
 
 func ResetCenterStage() {
