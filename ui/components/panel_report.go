@@ -30,6 +30,7 @@ func NewReportPanel(containerSize fyne.Size, text string) *ReportPanel {
 	newSize := fyne.NewSize(containerSize.Width/2, containerSize.Height)
 	richText := widget.NewRichTextFromMarkdown(text)
 	richText.Scroll = container.ScrollBoth
+	richText.Wrapping = fyne.TextWrapWord
 	richText.Resize(newSize)
 
 	return &ReportPanel{Canvas: richText, Size: newSize}
