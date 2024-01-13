@@ -1,10 +1,10 @@
-//go:generate ai-code-critic bundle bundled.go assets
-
 package main
 
 import (
 	"fmt"
 	"strconv"
+	"strings"
+	"sync"
 
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -27,7 +27,6 @@ func main() {
 	)
 
 	_, err := critic.GetConfig()
-
 	if err != nil {
 		dialog.ShowError(err, *criticWindow.Window)
 	}
@@ -36,23 +35,59 @@ func main() {
 }
 
 func getCodeReview(prContents, gptModel string) {
-
 	criticWindow.ProgressBar.StartProgressBar()
 
-	review, err := critic.GetCodeReviewFromAPI(prContents, gptModel)
+	config, err := critic.GetConfig()
 
 	if err != nil {
+		dialog.ShowError(fmt.Errorf("error getting config: %s", err), *criticWindow.Window)
 		ResetCenterStage()
-		dialog.ShowError(fmt.Errorf("error getting review: %s", err), *criticWindow.Window)
+
 		return
 	}
 
-	criticWindow.ReportPanel.Canvas.ParseMarkdown(review)
+	ignoreList := strings.Split(config.IgnoreFiles, ",")
+
+	// Step 1: Split and parse PR contents into individual GitDiff objects.
+	gitDiffs := critic.ParseGitDiff(prContents, ignoreList)
+
+	// Channel to collect responses from goroutines.
+	reviewsChan := make(chan string, len(gitDiffs))
+	var wg sync.WaitGroup
+
+	for _, gitDiff := range gitDiffs {
+		wg.Add(1)
+		go func(gd *critic.GitDiff) {
+			defer wg.Done()
+
+			// Step 2: Send the diff to GetCodeReviewFromAPI in a goroutine.
+			review, err := critic.GetCodeReviewFromAPI(gd.DiffContents, gptModel)
+			if err != nil {
+				reviewsChan <- fmt.Sprintf("Error getting review for %s: %s\n", gd.FilePathNew, err)
+				return
+			}
+
+			// Prepend the diff header to the review.
+			header := fmt.Sprintf("Review for %s:\n", gd.FilePathNew)
+			reviewsChan <- header + review
+		}(gitDiff)
+	}
+
+	// Wait for all goroutines to complete.
+	wg.Wait()
+	close(reviewsChan)
+
+	// Step 4: Assemble all responses into a single string.
+	var fullReview strings.Builder
+	for review := range reviewsChan {
+		fullReview.WriteString(review + "\n\n")
+	}
+
+	criticWindow.ReportPanel.Canvas.ParseMarkdown(fullReview.String())
 	ResetCenterStage()
 }
 
 func onPullRequestModalClickedHandler(ok bool) {
-
 	if !ok {
 		return
 	}
@@ -68,7 +103,6 @@ func onPullRequestModalClickedHandler(ok bool) {
 	criticWindow.ProgressBar.Canvas.Show()
 
 	owner, repo, prNumber, err := critic.ParseGithubPullRequestURL(input)
-
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("error parsing URL: %s", err), *criticWindow.Window)
 		ResetCenterStage()
@@ -77,7 +111,6 @@ func onPullRequestModalClickedHandler(ok bool) {
 	}
 
 	prNumberInt, err := strconv.Atoi(prNumber)
-
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("invalid PR number: %s", err), *criticWindow.Window)
 		ResetCenterStage()
@@ -105,7 +138,6 @@ func onGetPullRequestHandler(prContents, gptModel string) {
 
 	// Send the pull request to the LLM
 	go getCodeReview(prContents, gptModel)
-
 }
 
 func onFileOpenButtonClickedHandler() {
@@ -145,10 +177,8 @@ func onAnalyzeButtonClickedHandler() {
 }
 
 func ResetCenterStage() {
-
 	criticWindow.DiffPanel.Resize()
 	criticWindow.ReportPanel.Resize()
 	criticWindow.ReportPanel.Canvas.Scroll = container.ScrollBoth
 	criticWindow.ProgressBar.StopProgressBar()
-
 }

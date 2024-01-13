@@ -22,6 +22,9 @@ const defaultContextTimeout = 5 * time.Second
 type Config struct {
 	OpenAIAPIKey   string        `env:"OPENAI_API_KEY"`
 	ContextTimeout time.Duration `env:"CONTEXT_TIMEOUT,default=5s"`
+	// IgnoreFiles is a comma-separated list of file names to ignore.
+	// We add some defaults here for now as a fallback.
+	IgnoreFiles string `env:"IGNORE_FILES,default=go.mod,go.sum"`
 }
 
 // config is a singleton instance of Config

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	OPENAI_ENV_NAME          = "OPENAI_API_KEY"
-	CONTEXT_TIMEOUT_ENV_NAME = "CONTEXT_TIMEOUT"
+	OpenaiENVName         = "OPENAI_API_KEY"
+	ContextTimeoutENVName = "CONTEXT_TIMEOUT"
 )
 
 type TestConfigSuite struct {
@@ -24,30 +24,30 @@ type TestConfigSuite struct {
 }
 
 func (s *TestConfigSuite) SetupSuite() {
-	s.restoreOpenaiEnvValue = os.Getenv(OPENAI_ENV_NAME)
-	s.restoreContextTimeoutEnvValue = os.Getenv(CONTEXT_TIMEOUT_ENV_NAME)
+	s.restoreOpenaiEnvValue = os.Getenv(OpenaiENVName)
+	s.restoreContextTimeoutEnvValue = os.Getenv(ContextTimeoutENVName)
 }
 
 func (s *TestConfigSuite) TearDownSuite() {
-	err := os.Setenv(OPENAI_ENV_NAME, s.restoreOpenaiEnvValue)
+	err := os.Setenv(OpenaiENVName, s.restoreOpenaiEnvValue)
 	if err != nil {
-		s.FailNowf("can not restore %s", OPENAI_ENV_NAME)
+		s.FailNowf("can not restore %s", OpenaiENVName)
 	}
-	err = os.Setenv(CONTEXT_TIMEOUT_ENV_NAME, s.restoreContextTimeoutEnvValue)
+	err = os.Setenv(ContextTimeoutENVName, s.restoreContextTimeoutEnvValue)
 	if err != nil {
-		s.FailNowf("can not restore %s", OPENAI_ENV_NAME)
+		s.FailNowf("can not restore %s", ContextTimeoutENVName)
 	}
 }
 
 func (s *TestConfigSuite) TestGetConfig() {
 	apiKey := "api-key-openai"
-	contextTimeout := "3s"
+	contextTimeout := "5s"
 
-	err := os.Setenv(OPENAI_ENV_NAME, apiKey)
+	err := os.Setenv(OpenaiENVName, apiKey)
 	if err != nil {
 		s.FailNow("can not set openai api key for test")
 	}
-	err = os.Setenv(CONTEXT_TIMEOUT_ENV_NAME, contextTimeout)
+	err = os.Setenv(ContextTimeoutENVName, contextTimeout)
 	if err != nil {
 		s.FailNow("can not set context timout for test")
 	}
@@ -57,7 +57,8 @@ func (s *TestConfigSuite) TestGetConfig() {
 
 	expected := &Config{
 		OpenAIAPIKey:   apiKey,
-		ContextTimeout: time.Duration(3) * time.Second,
+		ContextTimeout: time.Duration(5) * time.Second,
+		IgnoreFiles:    "go.mod",
 	}
 	fmt.Printf("expected: %v, actual : %v", expected, config)
 	s.Equal(expected, config)
@@ -65,11 +66,12 @@ func (s *TestConfigSuite) TestGetConfig() {
 
 func (s *TestConfigSuite) TestValidateConfigValidConfigs() {
 	apiKey := "api-key-openai"
-	contextTimeout := time.Duration(3) * time.Second
+	contextTimeout := time.Duration(5) * time.Second
 
 	err := ValidateConfig(&Config{
 		OpenAIAPIKey:   apiKey,
 		ContextTimeout: contextTimeout,
+		IgnoreFiles:    "go.mod",
 	})
 
 	s.Nil(err)
