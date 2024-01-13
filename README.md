@@ -52,7 +52,7 @@ To run the program:
 
 ## Usage 💡
 
-![Screenshot](./assets/screenshot.png)
+![Screenshot](https://github.com/kmesiab/ai-code-critic/assets/161768/8002cce3-5e62-41ae-8982-9a4257aa8207)
 
 1. Click the "+" button and enter the url to a github pull request.
 2. Wait patiently while things happen.
