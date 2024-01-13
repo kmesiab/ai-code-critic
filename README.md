@@ -35,6 +35,15 @@ Set your OpenAI API Key
 echo "export OPENAI_API_KEY=sk-[SECRET]" > .env && source .env
 ```
 
+Set your Ignore Files.  These are file types that will be excluded from
+code reviews.  They should be a comma separated list of file extensions.
+
+ex:
+
+```bash
+echo "export IGNORE_FILES=.mod,.sum" > .env && source .env
+````
+
 To run the program:
 
 ```bash
