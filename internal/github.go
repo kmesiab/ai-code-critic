@@ -11,6 +11,8 @@ import (
 	"github.com/google/go-github/v57/github"
 )
 
+// ParseGithubPullRequestURL parses a GitHub pull request URL and returns the owner, repository,
+// and pull request number.
 func ParseGithubPullRequestURL(pullRequestURL string) (string, string, string, error) {
 	parts := strings.Split(pullRequestURL, "/")
 
