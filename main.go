@@ -67,7 +67,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 	criticWindow.ProgressBar.Canvas.Start()
 	criticWindow.ProgressBar.Canvas.Show()
 
-	url, s, s2, err := critic.ParseGithubPullRequestURL(input)
+	owner, repo, prNumber, err := critic.ParseGithubPullRequestURL(input)
 
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("error parsing URL: %s", err), *criticWindow.Window)
@@ -76,7 +76,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 		return
 	}
 
-	prNumber, err := strconv.Atoi(s2)
+	prNumberInt, err := strconv.Atoi(prNumber)
 
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("invalid PR number: %s", err), *criticWindow.Window)
@@ -85,7 +85,7 @@ func onPullRequestModalClickedHandler(ok bool) {
 		return
 	}
 
-	err = critic.GetPullRequest(url, s, gptModel, prNumber, onGetPullRequestHandler)
+	err = critic.GetPullRequest(owner, repo, gptModel, prNumberInt, onGetPullRequestHandler)
 
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("error getting PR: %s", err), *criticWindow.Window)
