@@ -3,11 +3,14 @@ package internal
 import (
 	"fmt"
 	"reflect"
+	"strings"
 	"sync"
 	"time"
 
 	goenv "github.com/Netflix/go-env"
 )
+
+const defaultContextTimeout = 5 * time.Second
 
 // Config struct holds the configuration settings.
 // Annotations for environment variables should be added here.
@@ -35,13 +38,26 @@ func GetConfig() (*Config, error) {
 
 		// Unmarshal environment variables into the config struct
 		_, err := goenv.UnmarshalFromEnviron(config)
-		if err != nil {
-			// Log and handle the error if unmarshalling fails
-			Logf("Failed to unmarshal config").
-				AddError(err).
-				Error()
 
-			return
+		if err != nil {
+
+			// Check for specific time duration parsing error
+			if strings.Contains(err.Error(), "time: invalid duration") {
+				// Set a default value for ContextTimeout
+				config.ContextTimeout = defaultContextTimeout
+
+			} else {
+				Logf("Failed to unmarshal config").
+					AddError(err).
+					Error()
+
+				return
+			}
+		}
+
+		// Set a default value if ContextTimeout is zero (not set)
+		if config.ContextTimeout == 0 {
+			config.ContextTimeout = defaultContextTimeout
 		}
 	})
 
