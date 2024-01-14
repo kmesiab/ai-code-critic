@@ -124,14 +124,12 @@ func getDiffContents(c chan<- string, diffURL string) {
 // Returns:
 //   - A slice of GitDiff structs, each representing a parsed and non-ignored file diff.
 func ParseGitDiff(diff string, ignoreList []string) []*GitDiff {
-
 	files := splitDiffIntoFiles(diff)
 	var filteredList []*GitDiff
 
 	for _, file := range files {
 
 		gitDiff, err := parseGitDiffFileString(file)
-
 		if err != nil {
 			continue
 		}
@@ -203,7 +201,6 @@ func splitDiffIntoFiles(diff string) []string {
 //   - An error if the input string is not in the expected format or if any
 //     parsing step fails.
 func parseGitDiffFileString(input string) (*GitDiff, error) {
-
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	scanner.Split(bufio.ScanLines)
 

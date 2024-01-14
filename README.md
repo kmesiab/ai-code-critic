@@ -2,7 +2,9 @@
 
 ![Golang](https://img.shields.io/badge/Go-00add8.svg?labelColor=171e21&style=for-the-badge&logo=go)
 
-![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go.yml/badge.svg)
+![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go-build.yml/badge.svg)
+![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go-lint.yml/badge.svg)
+![Build](https://github.com/kmesiab/ai-code-critic/actions/workflows/go-test.yml/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kmesiab/ai-code-critic)](https://goreportcard.com/report/github.com/kmesiab/ai-code-critic)
 
 ## Overview 🌟
@@ -36,7 +38,7 @@ echo "export OPENAI_API_KEY=sk-[SECRET]" > .env && source .env
 ```
 
 Set your Ignore Files.  These are file types that will be excluded from
-code reviews.  They should be a comma separated list of file extensions.
+code reviews.  They should be a comma-separated list of file extensions.
 
 ex:
 
@@ -54,7 +56,7 @@ To run the program:
 
 ![Screenshot](https://github.com/kmesiab/ai-code-critic/assets/161768/8002cce3-5e62-41ae-8982-9a4257aa8207)
 
-1. Click the "+" button and enter the url to a github pull request.
+1. Click the "+" button and enter the url to a GitHub pull request.
 2. Wait patiently while things happen.
 3. The diff will be loaded in the right pane.
 4. The report will appear shortly after in the left pane.

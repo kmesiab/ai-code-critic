@@ -38,7 +38,6 @@ func getCodeReview(prContents, gptModel string) {
 	criticWindow.ProgressBar.StartProgressBar()
 
 	config, err := critic.GetConfig()
-
 	if err != nil {
 		dialog.ShowError(fmt.Errorf("error getting config: %s", err), *criticWindow.Window)
 		ResetCenterStage()
@@ -129,7 +128,6 @@ func onPullRequestModalClickedHandler(ok bool) {
 }
 
 func onGetPullRequestHandler(prContents, gptModel string) {
-
 	// Set the diff text
 	criticWindow.DiffPanel.SetDiffText(prContents)
 
