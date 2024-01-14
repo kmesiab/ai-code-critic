@@ -86,7 +86,6 @@ func TestGetFileExtensions(t *testing.T) {
 }
 
 func TestGetContextTimeout(t *testing.T) {
-
 	initialOpenAIAPIKey := os.Getenv("OPENAI_API_KEY")
 	initialIgnoreFiles := os.Getenv("IGNORE_FILES")
 
@@ -193,7 +192,6 @@ func TestSplitDiffIntoFilesOneFile(t *testing.T) {
 }
 
 func TestSplitDiffIntoFilesLastEmpty(t *testing.T) {
-
 	diff := `diff --git a/f1 b/f1
 diff --git c/f2 d/f2
 `

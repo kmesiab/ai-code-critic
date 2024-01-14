@@ -41,14 +41,11 @@ func GetConfig() (*Config, error) {
 
 		// Unmarshal environment variables into the config struct
 		_, err := goenv.UnmarshalFromEnviron(config)
-
 		if err != nil {
-
 			// Check for specific time duration parsing error
 			if strings.Contains(err.Error(), "time: invalid duration") {
 				// Set a default value for ContextTimeout
 				config.ContextTimeout = defaultContextTimeout
-
 			} else {
 				Logf("Failed to unmarshal config").
 					AddError(err).

@@ -1,0 +1,38 @@
+name: Build
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+
+  build_go:
+    name: "🏗 Compile"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🚀 Set up Go
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: '1.21.4'
+          cache: true
+          check-latest: true
+
+      - name: 🧹 Tidy
+        run: go mod tidy
+
+      - name: 🏗 Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xorg-dev libgl1-mesa-dev
+
+      - name: 🤖 Build
+        run: go build ./...

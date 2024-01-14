@@ -44,5 +44,4 @@ func TestNewToolBar(t *testing.T) {
 		assert.True(t, pullRequestEventTriggered, "Pull request event should be triggered")
 		assert.True(t, analyzeEventTriggered, "Analyze event should be triggered")
 	})
-
 }
